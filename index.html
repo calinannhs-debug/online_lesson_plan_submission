@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CNHS | Online Lesson Plan Submission</title>
+  <style>
+    :root { --navy:#064b24; --blue:#087a35; --gold:#f2c94c; --bg:#f3f8f1; --ink:#243b2b; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:Arial,Helvetica,sans-serif; color:var(--ink); background:var(--bg); }
+    header { background:linear-gradient(120deg,#064b24,#0b7a36); color:white; padding:22px 18px; }
+    .brand { max-width:1000px; margin:auto; display:flex; align-items:center; gap:16px; }
+    .logo { width:68px; height:68px; flex:0 0 68px; border:2px solid #fff; border-radius:50%; display:grid; place-items:center; color:var(--navy); background:white; font-weight:bold; font-size:13px; text-align:center; }
+    .school-logo { width:76px; height:76px; flex:0 0 76px; object-fit:contain; background:#fff; border:2px solid var(--gold); border-radius:50%; padding:2px; }
+    h1 { margin:0 0 6px; font-size:clamp(20px,3vw,29px); }
+    header p { margin:0; opacity:.92; }
+    main { max-width:1000px; margin:28px auto; padding:0 16px 40px; }
+    .intro,.panel { background:white; border-radius:12px; box-shadow:0 3px 14px #142b4510; padding:22px; margin-bottom:18px; }
+    .intro { border-left:5px solid var(--gold); }
+    h2 { margin:0 0 16px; color:var(--navy); font-size:20px; }
+    .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:15px; }
+    label { display:block; font-weight:700; font-size:14px; margin-bottom:7px; }
+    input,select,textarea { width:100%; padding:11px 12px; border:1px solid #cbd5e1; border-radius:7px; font:inherit; background:#fff; }
+    textarea { min-height:105px; resize:vertical; }
+    .full { grid-column:1/-1; }
+    .hint { color:#5c6b7a; font-size:13px; margin-top:6px; }
+    .actions { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+    button { border:0; border-radius:7px; padding:12px 19px; font-weight:700; cursor:pointer; font-size:15px; }
+    .submit { background:var(--blue); color:white; }
+    .reset { background:#e8edf3; color:#243447; }
+    button:disabled { opacity:.6; cursor:wait; }
+    #status { margin-top:14px; padding:12px; border-radius:7px; display:none; line-height:1.45; }
+    #status.ok { display:block; background:#e8f6ed; color:#14532d; }
+    #status.err { display:block; background:#fff0f0; color:#991b1b; }
+    footer { text-align:center; color:#657386; font-size:13px; padding:10px 16px 28px; }
+    @media(max-width:650px) { .grid { grid-template-columns:1fr; } .full { grid-column:auto; } .brand { align-items:flex-start; } .logo { width:55px;height:55px;flex-basis:55px; } .school-logo { width:62px;height:62px;flex-basis:62px; } }
+  </style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <img src="school-logo.png" alt="Calinan National High School official logo" class="school-logo">
+    <div>
+      <h1>Calinan National High School</h1>
+      <p>Online Lesson Plan Submission Portal</p>
+      <p>Peñano St., Calinan, Davao City</p>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="intro">
+    <h2>Teacher Lesson Plan Submission</h2>
+    <p>Complete the form below and submit your lesson plan. Please review all entries before sending. Submissions will be recorded in the school’s designated Google Sheet after the administrator configures the connection.</p>
+    <p class="hint">Required fields are marked with an asterisk (*). Use the school-approved format and follow your department’s submission schedule.</p>
+  </section>
+
+  <form id="lessonForm" class="panel">
+    <h2>1. Teacher and Lesson Information</h2>
+    <div class="grid">
+      <div><label for="teacher">Teacher's Full Name *</label><input id="teacher" name="teacher" required></div>
+      <div><label for="email">School Email Address *</label><input id="email" name="email" type="email" required></div>
+      <div><label for="grade">Grade Level *</label><select id="grade" name="grade" required><option value="">Select grade</option><option>Grade 7</option><option>Grade 8</option><option>Grade 9</option><option>Grade 10</option><option>Grade 11</option><option>Grade 12</option></select></div>
+      <div><label for="section">Section</label><input id="section" name="section"></div>
+      <div><label for="subject">Learning Area / Subject *</label><input id="subject" name="subject" required></div>
+      <div><label for="quarter">Quarter *</label><select id="quarter" name="quarter" required><option value="">Select quarter</option><option>1st Quarter</option><option>2nd Quarter</option><option>3rd Quarter</option><option>4th Quarter</option></select></div>
+      <div><label for="week">Week / Module</label><input id="week" name="week"></div>
+      <div><label for="date">Date of Lesson *</label><input id="date" name="lessonDate" type="date" required></div>
+      <div class="full"><label for="topic">Lesson Title / Topic *</label><input id="topic" name="topic" required></div>
+    </div>
+
+    <h2 style="margin-top:28px">2. Lesson Plan Details</h2>
+    <div class="grid">
+      <div class="full"><label for="competencies">Learning Competencies / Standards *</label><textarea id="competencies" name="competencies" required placeholder="Enter the relevant learning competency/ies."></textarea></div>
+      <div class="full"><label for="objectives">Learning Objectives *</label><textarea id="objectives" name="objectives" required placeholder="At the end of the lesson, learners should be able to..."></textarea></div>
+      <div class="full"><label for="content">Content / Subject Matter *</label><textarea id="content" name="content" required></textarea></div>
+      <div class="full"><label for="resources">Learning Resources / Materials</label><textarea id="resources" name="resources" placeholder="References, books, links, visual aids, equipment, etc."></textarea></div>
+      <div class="full"><label for="procedure">Learning Procedures / Teaching-Learning Activities *</label><textarea id="procedure" name="procedure" required placeholder="Motivation, lesson presentation, guided practice, group activity, generalization, and application."></textarea></div>
+      <div class="full"><label for="assessment">Assessment / Evaluation *</label><textarea id="assessment" name="assessment" required placeholder="Describe the assessment task and how learning will be checked."></textarea></div>
+      <div class="full"><label for="assignment">Assignment / Remediation / Enrichment</label><textarea id="assignment" name="assignment"></textarea></div>
+      <div class="full"><label for="remarks">Remarks / Additional Notes</label><textarea id="remarks" name="remarks"></textarea></div>
+    </div>
+
+    <div class="actions" style="margin-top:22px">
+      <button class="submit" id="submitBtn" type="submit">Submit Lesson Plan</button>
+      <button class="reset" type="reset">Clear Form</button>
+    </div>
+    <div id="status" role="status" aria-live="polite"></div>
+  </form>
+</main>
+<footer>Calinan National High School • Lesson Plan Submission Portal</footer>
+
+<script>
+  // IMPORTANT: Paste your deployed Google Apps Script Web App URL between the quotes.
+  const SCRIPT_URL = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+
+  const form = document.getElementById("lessonForm");
+  const statusBox = document.getElementById("status");
+  const submitBtn = document.getElementById("submitBtn");
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    statusBox.className = "";
+    statusBox.style.display = "none";
+
+    if (!form.reportValidity()) return;
+    if (!SCRIPT_URL.startsWith("https://script.google.com/")) {
+      statusBox.textContent = "The form is not connected yet. The website administrator must add the deployed Google Apps Script Web App URL in index.html.";
+      statusBox.className = "err";
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Submitting...";
+    const formData = new FormData(form);
+    formData.append("submittedAt", new Date().toISOString());
+
+    try {
+      // no-cors is used because this is a simple browser-to-Apps-Script form POST.
+      // The browser cannot read Google's response in no-cors mode.
+      await fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", body: formData });
+      statusBox.textContent = "Your submission request has been sent. Because the browser cannot read the Google response, please contact the school coordinator if you do not see your submission recorded in the school's spreadsheet.";
+      statusBox.className = "ok";
+      form.reset();
+    } catch (error) {
+      statusBox.textContent = "Unable to send the form. Please check your internet connection and try again, or contact the school administrator.";
+      statusBox.className = "err";
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Submit Lesson Plan";
+    }
+  });
+</script>
+</body>
+</html>
