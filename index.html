@@ -60,7 +60,8 @@
           <input name="subject" placeholder="e.g. English" required maxlength="80">
         </label>
         <label> Time / period
-          <input name="period" placeholder="e.g. 7:30–8:30 AM" required maxlength="60">
+          <input id="assignmentPeriod" name="period" list="periodOptions" placeholder="e.g. 7:30–8:30 AM" required maxlength="60">
+          <datalist id="periodOptions"></datalist>
         </label>
         <label> Room
           <input name="room" placeholder="e.g. Room 12" maxlength="40">
@@ -76,6 +77,35 @@
           <button class="button button-primary" type="submit">Save assignment</button>
         </div>
       </form>
+    </section>
+
+    <section class="panel availability-panel">
+      <div class="section-heading">
+        <div><h2>Find vacant teachers</h2><p class="muted">Choose a date and period to see teachers who have no scheduled class.</p></div>
+      </div>
+      <div class="availability-controls">
+        <label> Date <input id="availabilityDate" type="date"></label>
+        <label> Time / period <input id="availabilityPeriod" list="periodOptions" placeholder="Choose or type a period"></label>
+      </div>
+      <div id="availabilityResults" class="availability-results"><p class="empty-state">Enter a date and period to check teacher availability.</p></div>
+    </section>
+
+    <section class="panel schedule-panel">
+      <div class="section-heading">
+        <div><h2>Teacher class schedules</h2><p class="muted">Teachers can add their weekly teaching loads. Use the same period label when checking availability.</p></div>
+      </div>
+      <form id="scheduleForm" class="form-grid schedule-form">
+        <label> Teacher <select id="scheduleTeacher" name="teacher" required><option value="">Select teacher</option></select></label>
+        <label> Day <select name="day" required><option value="">Select day</option><option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option><option>Saturday</option></select></label>
+        <label> Time / period <input name="period" list="periodOptions" placeholder="e.g. 7:30–8:30 AM" required maxlength="60"></label>
+        <label> Subject <input name="subject" placeholder="e.g. Mathematics" required maxlength="80"></label>
+        <label> Grade & section <input name="section" placeholder="e.g. Grade 7 - Mabini" maxlength="80"></label>
+        <label> Room <input name="room" placeholder="e.g. Room 5" maxlength="40"></label>
+        <div class="form-footer full-width"><p id="scheduleMessage" class="form-message" role="status"></p><button class="button button-primary" type="submit">Save class schedule</button></div>
+      </form>
+      <div class="table-wrap schedule-table-wrap">
+        <table><thead><tr><th>Teacher</th><th>Day</th><th>Time / period</th><th>Subject</th><th>Class / section</th><th>Room</th><th class="no-print">Action</th></tr></thead><tbody id="scheduleRows"><tr><td colspan="7" class="empty-state">No teacher schedules added yet.</td></tr></tbody></table>
+      </div>
     </section>
 
     <section class="panel">
@@ -99,7 +129,7 @@
     <section class="panel admin-panel">
       <details>
         <summary>Manage teacher directory</summary>
-        <p class="muted">Add teachers who may be absent or serve as substitutes. Names are stored in the Google Sheet.</p>
+        <p class="muted">Add teachers who may be absent or serve as substitutes. Each teacher can then enter their weekly class schedule above.</p>
         <form id="teacherForm" class="teacher-form">
           <input id="teacherName" placeholder="Teacher full name" required maxlength="100">
           <input id="teacherDepartment" placeholder="Department / subject area" maxlength="80">

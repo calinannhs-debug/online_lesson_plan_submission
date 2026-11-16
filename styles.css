@@ -28,3 +28,13 @@ input:focus,select:focus,textarea:focus{outline:2px solid #b8dc48;outline-offset
 @media(max-width:800px){.form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.table-heading{display:block}.filters{margin-top:14px}.toolbar{align-items:flex-start;flex-direction:column}.stats-grid{gap:8px}.stat-card{padding:13px}.school-logo{width:88px;height:88px}}
 @media(max-width:520px){.header-inner{gap:12px}.school-logo{width:70px;height:70px}.school-heading .eyebrow{font-size:9px}.school-heading h1{font-size:19px}.school-heading h2{font-size:12px;letter-spacing:1px}.school-heading p{font-size:12px}.container{padding:0 10px;margin:14px auto}.panel{padding:15px}.form-grid{grid-template-columns:1fr}.stats-grid{grid-template-columns:repeat(3,1fr)}.stat-card strong{font-size:22px}.teacher-form{flex-direction:column}.filters input,.filters input[type=search],.filters select{width:100%}}
 @media print{body{background:white}.school-header{print-color-adjust:exact;-webkit-print-color-adjust:exact}.container{max-width:none;margin:12px auto}.panel,.stat-card{box-shadow:none;break-inside:avoid}.toolbar-actions,.form-panel,.admin-panel,.filters,.no-print,.page-footer p:last-child{display:none!important}.stats-grid{margin:10px 0}.panel{padding:12px}table{font-size:10px}th,td{padding:7px 5px}}
+.availability-controls{display:grid;grid-template-columns:repeat(2,minmax(180px,260px));gap:14px;margin:18px 0}
+.availability-summary{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#edf6ee;border:1px solid #d9eadc;border-radius:9px;padding:12px 14px;color:#205b32;font-size:13px}
+.availability-summary span{color:#52665a;font-size:12px}
+.availability-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;margin-top:12px}
+.available-card{border:1px solid #cfe5d2;border-left:4px solid #2b914e;border-radius:9px;padding:12px;background:#fbfefb;display:flex;flex-direction:column;gap:4px}
+.available-card strong{color:#174a2c;font-size:14px}.available-card span{font-size:12px;color:#52665a}.available-card small{font-size:11px;color:#27834a;font-weight:700}
+.busy-details{margin-top:14px;font-size:12px;color:#52665a}.busy-details summary{cursor:pointer;font-weight:700}.busy-details ul{margin:8px 0;padding-left:20px}
+.schedule-form{margin-bottom:18px}.schedule-table-wrap{margin-top:12px}
+@media(max-width:600px){.availability-controls{grid-template-columns:1fr}.availability-summary{align-items:flex-start;flex-direction:column}}
+@media print{.availability-panel,.schedule-panel{break-inside:avoid}}
