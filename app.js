@@ -120,6 +120,12 @@
   ["filterDate","filterText","filterStatus"].forEach(id=>$(id).addEventListener("input",render));
   ["availabilityDate","availabilityPeriod"].forEach(id=>$(id).addEventListener("input",renderAvailability));
   ["assignmentDate","assignmentPeriod","absentTeacher"].forEach(id=>$(id).addEventListener("input",updateSubstituteOptions));
-  $("refreshBtn").addEventListener("click",load);$("printBtn").addEventListener("click",()=>window.print());
+  $("refreshBtn").addEventListener("click",load);
+  $("printBtn").addEventListener("click",()=>window.print());
+  $("printSubstitutionBtn").addEventListener("click",()=>{
+    document.body.classList.add("print-substitution-only");
+    window.print();
+  });
+  window.addEventListener("afterprint",()=>document.body.classList.remove("print-substitution-only"));
   load();
 })();
