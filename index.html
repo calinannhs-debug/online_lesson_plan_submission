@@ -1,135 +1,120 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CNHS | Online Lesson Plan Submission</title>
-  <style>
-    :root { --navy:#064b24; --blue:#087a35; --gold:#f2c94c; --bg:#f3f8f1; --ink:#243b2b; }
-    * { box-sizing:border-box; }
-    body { margin:0; font-family:Arial,Helvetica,sans-serif; color:var(--ink); background:var(--bg); }
-    header { background:linear-gradient(120deg,#064b24,#0b7a36); color:white; padding:22px 18px; }
-    .brand { max-width:1000px; margin:auto; display:flex; align-items:center; gap:16px; }
-    .logo { width:68px; height:68px; flex:0 0 68px; border:2px solid #fff; border-radius:50%; display:grid; place-items:center; color:var(--navy); background:white; font-weight:bold; font-size:13px; text-align:center; }
-    .school-logo { width:76px; height:76px; flex:0 0 76px; object-fit:contain; background:#fff; border:2px solid var(--gold); border-radius:50%; padding:2px; }
-    h1 { margin:0 0 6px; font-size:clamp(20px,3vw,29px); }
-    header p { margin:0; opacity:.92; }
-    main { max-width:1000px; margin:28px auto; padding:0 16px 40px; }
-    .intro,.panel { background:white; border-radius:12px; box-shadow:0 3px 14px #142b4510; padding:22px; margin-bottom:18px; }
-    .intro { border-left:5px solid var(--gold); }
-    h2 { margin:0 0 16px; color:var(--navy); font-size:20px; }
-    .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:15px; }
-    label { display:block; font-weight:700; font-size:14px; margin-bottom:7px; }
-    input,select,textarea { width:100%; padding:11px 12px; border:1px solid #cbd5e1; border-radius:7px; font:inherit; background:#fff; }
-    textarea { min-height:105px; resize:vertical; }
-    .full { grid-column:1/-1; }
-    .hint { color:#5c6b7a; font-size:13px; margin-top:6px; }
-    .actions { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
-    button { border:0; border-radius:7px; padding:12px 19px; font-weight:700; cursor:pointer; font-size:15px; }
-    .submit { background:var(--blue); color:white; }
-    .reset { background:#e8edf3; color:#243447; }
-    button:disabled { opacity:.6; cursor:wait; }
-    #status { margin-top:14px; padding:12px; border-radius:7px; display:none; line-height:1.45; }
-    #status.ok { display:block; background:#e8f6ed; color:#14532d; }
-    #status.err { display:block; background:#fff0f0; color:#991b1b; }
-    footer { text-align:center; color:#657386; font-size:13px; padding:10px 16px 28px; }
-    @media(max-width:650px) { .grid { grid-template-columns:1fr; } .full { grid-column:auto; } .brand { align-items:flex-start; } .logo { width:55px;height:55px;flex-basis:55px; } .school-logo { width:62px;height:62px;flex-basis:62px; } }
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#075b2b">
+  <title>CNHS | Teacher Substitution Plan</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<header>
-  <div class="brand">
-    <img src="school-logo.png" alt="Calinan National High School official logo" class="school-logo">
-    <div>
-      <h1>Calinan National High School</h1>
-      <p>Online Lesson Plan Submission Portal</p>
-      <p>Peñano St., Calinan, Davao City</p>
+  <header class="school-header">
+    <div class="header-inner">
+      <img src="assets/cnhs-logo.png" alt="Calinan National High School seal" class="school-logo">
+      <div class="school-heading">
+        <p class="eyebrow">Republic of the Philippines · Department of Education</p>
+        <h1>CALINAN NATIONAL HIGH SCHOOL</h1>
+        <p>Calinan, Davao City</p>
+        <h2>TEACHER SUBSTITUTION PLAN</h2>
+      </div>
     </div>
-  </div>
-</header>
+  </header>
 
-<main>
-  <section class="intro">
-    <h2>Teacher Lesson Plan Submission</h2>
-    <p>Complete the form below and submit your lesson plan. Please review all entries before sending. Submissions will be recorded in the school’s designated Google Sheet after the administrator configures the connection.</p>
-    <p class="hint">Required fields are marked with an asterisk (*). Use the school-approved format and follow your department’s submission schedule.</p>
-  </section>
+  <main class="container">
+    <section class="toolbar panel">
+      <div>
+        <h2>Daily Coverage Dashboard</h2>
+        <p class="muted">Record teacher absences and assign class coverage.</p>
+      </div>
+      <div class="toolbar-actions">
+        <span id="connectionStatus" class="status-pill offline">Not connected</span>
+        <button id="refreshBtn" class="button button-light" type="button">Refresh</button>
+        <button id="printBtn" class="button button-primary" type="button">Print plan</button>
+      </div>
+    </section>
 
-  <form id="lessonForm" class="panel">
-    <h2>1. Teacher and Lesson Information</h2>
-    <div class="grid">
-      <div><label for="teacher">Teacher's Full Name *</label><input id="teacher" name="teacher" required></div>
-      <div><label for="email">School Email Address *</label><input id="email" name="email" type="email" required></div>
-      <div><label for="grade">Grade Level *</label><select id="grade" name="grade" required><option value="">Select grade</option><option>Grade 7</option><option>Grade 8</option><option>Grade 9</option><option>Grade 10</option><option>Grade 11</option><option>Grade 12</option></select></div>
-      <div><label for="section">Section</label><input id="section" name="section"></div>
-      <div><label for="subject">Learning Area / Subject *</label><input id="subject" name="subject" required></div>
-      <div><label for="quarter">Quarter *</label><select id="quarter" name="quarter" required><option value="">Select quarter</option><option>1st Quarter</option><option>2nd Quarter</option><option>3rd Quarter</option><option>4th Quarter</option></select></div>
-      <div><label for="week">Week / Module</label><input id="week" name="week"></div>
-      <div><label for="date">Date of Lesson *</label><input id="date" name="lessonDate" type="date" required></div>
-      <div class="full"><label for="topic">Lesson Title / Topic *</label><input id="topic" name="topic" required></div>
-    </div>
+    <section class="stats-grid" aria-label="Plan summary">
+      <article class="stat-card"><span>Teachers</span><strong id="teacherCount">0</strong></article>
+      <article class="stat-card"><span>Assignments today</span><strong id="todayCount">0</strong></article>
+      <article class="stat-card"><span>Needs attention</span><strong id="attentionCount">0</strong></article>
+    </section>
 
-    <h2 style="margin-top:28px">2. Lesson Plan Details</h2>
-    <div class="grid">
-      <div class="full"><label for="competencies">Learning Competencies / Standards *</label><textarea id="competencies" name="competencies" required placeholder="Enter the relevant learning competency/ies."></textarea></div>
-      <div class="full"><label for="objectives">Learning Objectives *</label><textarea id="objectives" name="objectives" required placeholder="At the end of the lesson, learners should be able to..."></textarea></div>
-      <div class="full"><label for="content">Content / Subject Matter *</label><textarea id="content" name="content" required></textarea></div>
-      <div class="full"><label for="resources">Learning Resources / Materials</label><textarea id="resources" name="resources" placeholder="References, books, links, visual aids, equipment, etc."></textarea></div>
-      <div class="full"><label for="procedure">Learning Procedures / Teaching-Learning Activities *</label><textarea id="procedure" name="procedure" required placeholder="Motivation, lesson presentation, guided practice, group activity, generalization, and application."></textarea></div>
-      <div class="full"><label for="assessment">Assessment / Evaluation *</label><textarea id="assessment" name="assessment" required placeholder="Describe the assessment task and how learning will be checked."></textarea></div>
-      <div class="full"><label for="assignment">Assignment / Remediation / Enrichment</label><textarea id="assignment" name="assignment"></textarea></div>
-      <div class="full"><label for="remarks">Remarks / Additional Notes</label><textarea id="remarks" name="remarks"></textarea></div>
-    </div>
+    <section class="panel form-panel">
+      <div class="section-heading">
+        <div><h2>New substitution assignment</h2><p class="muted">Complete the details, then save to the connected Google Sheet.</p></div>
+      </div>
+      <form id="assignmentForm" class="form-grid">
+        <label> Date
+          <input id="assignmentDate" name="date" type="date" required>
+        </label>
+        <label> Absent teacher
+          <select id="absentTeacher" name="absentTeacher" required><option value="">Select teacher</option></select>
+        </label>
+        <label> Substitute teacher
+          <select id="substituteTeacher" name="substituteTeacher" required><option value="">Select substitute</option></select>
+        </label>
+        <label> Grade & section
+          <input name="section" placeholder="e.g. Grade 8 - Rizal" required maxlength="80">
+        </label>
+        <label> Subject
+          <input name="subject" placeholder="e.g. English" required maxlength="80">
+        </label>
+        <label> Time / period
+          <input name="period" placeholder="e.g. 7:30–8:30 AM" required maxlength="60">
+        </label>
+        <label> Room
+          <input name="room" placeholder="e.g. Room 12" maxlength="40">
+        </label>
+        <label> Status
+          <select name="status"><option>Assigned</option><option>Pending</option><option>Completed</option><option>Cancelled</option></select>
+        </label>
+        <label class="full-width">Notes
+          <textarea name="notes" rows="2" placeholder="Lesson instructions, activity, or other reminders"></textarea>
+        </label>
+        <div class="form-footer full-width">
+          <p id="formMessage" class="form-message" role="status"></p>
+          <button class="button button-primary" type="submit">Save assignment</button>
+        </div>
+      </form>
+    </section>
 
-    <div class="actions" style="margin-top:22px">
-      <button class="submit" id="submitBtn" type="submit">Submit Lesson Plan</button>
-      <button class="reset" type="reset">Clear Form</button>
-    </div>
-    <div id="status" role="status" aria-live="polite"></div>
-  </form>
-</main>
-<footer>Calinan National High School • Lesson Plan Submission Portal</footer>
+    <section class="panel">
+      <div class="section-heading table-heading">
+        <div><h2>Substitution schedule</h2><p class="muted">Filter by date, teacher, or status.</p></div>
+        <div class="filters">
+          <input id="filterDate" type="date" aria-label="Filter by date">
+          <input id="filterText" type="search" placeholder="Search teacher, class, subject…" aria-label="Search assignments">
+          <select id="filterStatus" aria-label="Filter by status"><option value="">All statuses</option><option>Assigned</option><option>Pending</option><option>Completed</option><option>Cancelled</option></select>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Date</th><th>Absent teacher</th><th>Substitute</th><th>Class / section</th><th>Subject</th><th>Time</th><th>Room</th><th>Status</th><th class="no-print">Action</th></tr></thead>
+          <tbody id="assignmentRows"><tr><td colspan="9" class="empty-state">Connect your Google Sheet to load the substitution schedule.</td></tr></tbody>
+        </table>
+      </div>
+      <p class="table-note">For official use, verify assignments with the school office before implementation.</p>
+    </section>
 
-<script>
-  // IMPORTANT: Paste your deployed Google Apps Script Web App URL between the quotes.
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzJQPAnSM1-1JMF94Er4f-VgZsP_AWGKYUcGqWx54ptexSYSR7qo5wVcWpNxpxxIhngFw/exec";
+    <section class="panel admin-panel">
+      <details>
+        <summary>Manage teacher directory</summary>
+        <p class="muted">Add teachers who may be absent or serve as substitutes. Names are stored in the Google Sheet.</p>
+        <form id="teacherForm" class="teacher-form">
+          <input id="teacherName" placeholder="Teacher full name" required maxlength="100">
+          <input id="teacherDepartment" placeholder="Department / subject area" maxlength="80">
+          <button class="button button-primary" type="submit">Add teacher</button>
+        </form>
+        <div id="teacherDirectory" class="teacher-directory"></div>
+      </details>
+    </section>
 
-  const form = document.getElementById("lessonForm");
-  const statusBox = document.getElementById("status");
-  const submitBtn = document.getElementById("submitBtn");
-
-  form.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    statusBox.className = "";
-    statusBox.style.display = "none";
-
-    if (!form.reportValidity()) return;
-    if (!SCRIPT_URL.startsWith("https://script.google.com/")) {
-      statusBox.textContent = "The form is not connected yet. The website administrator must add the deployed Google Apps Script Web App URL in index.html.";
-      statusBox.className = "err";
-      return;
-    }
-
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Submitting...";
-    const formData = new FormData(form);
-    formData.append("submittedAt", new Date().toISOString());
-
-    try {
-      // no-cors is used because this is a simple browser-to-Apps-Script form POST.
-      // The browser cannot read Google's response in no-cors mode.
-      await fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", body: formData });
-      statusBox.textContent = "Your submission request has been sent. Because the browser cannot read the Google response, please contact the school coordinator if you do not see your submission recorded in the school's spreadsheet.";
-      statusBox.className = "ok";
-      form.reset();
-    } catch (error) {
-      statusBox.textContent = "Unable to send the form. Please check your internet connection and try again, or contact the school administrator.";
-      statusBox.className = "err";
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.textContent = "Submit Lesson Plan";
-    }
-  });
-</script>
+    <footer class="page-footer">
+      <p><strong>CALINAN NATIONAL HIGH SCHOOL</strong> · Calinan, Davao City</p>
+      <p>Teacher Substitution Plan · For authorized school personnel</p>
+    </footer>
+  </main>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
